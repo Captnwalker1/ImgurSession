@@ -91,6 +91,14 @@
     [IMGGalleryRequest galleryWithParameters:params success:success failure:failure];
 }
 
++(void)searchGalleryWithTerm:(NSString*)term page:(NSInteger)page withViralSort:(BOOL)viralSort success:(void (^)(NSArray *))success failure:(void (^)(NSError *))failure{
+    
+    NSDictionary * params = @{@"section":@"search", @"page":[NSNumber numberWithInteger:page], @"sort":(viralSort ? @"viral" : @"time"), @"q": term};
+    
+    [IMGGalleryRequest galleryWithParameters:params success:success failure:failure];
+}
+
+
 +(void)galleryWithParameters:(NSDictionary *)parameters success:(void (^)(NSArray *))success failure:(void (^)(NSError *))failure{
     
     NSString *path = [self path];
@@ -106,6 +114,9 @@
     
     if(parameters[@"showViral"])
         path = [path stringByAppendingString:[NSString stringWithFormat:@"&showViral=%@",[(NSNumber*)parameters[@"showViral"] boolValue] ? @"true" : @"false"]];
+    
+    if(parameters[@"q"])
+        path = [path stringByAppendingString:[NSString stringWithFormat:@"&q=%@",parameters[@"q"]]];
     
     [[IMGSession sharedInstance] GET:path parameters:nil success:^(NSURLSessionDataTask *task, id responseObject) {
         

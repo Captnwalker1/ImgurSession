@@ -66,6 +66,13 @@ typedef NS_ENUM(NSInteger, IMGGalleryCommentSortType) {
 
 +(void)userGalleryPage:(NSInteger)page showViral:(BOOL)showViral success:(void (^)(NSArray *))success failure:(void (^)(NSError *))failure;
 /**
+ Search galleries with a term and viral options
+ @param term    search term (already encoded)
+ @param page    imgur pagination page to retrieve
+ @param viralSort    should sort by virality
+ */
++(void)searchGalleryWithTerm:(NSString*)term page:(NSInteger)page withViralSort:(BOOL)viralSort success:(void (^)(NSArray *))success failure:(void (^)(NSError *))failure;
+/**
  Retrieves gallery with parameters specified in dictionary
  @param parameters    dictionary of parameters to specify
  */
